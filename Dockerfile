@@ -12,8 +12,8 @@ RUN zypper --non-interactive install \
 	pwgen \
 	unzip
 
-RUN groupadd -r glassfish && \
-    useradd -r -g glassfish -d $GLASSFISH_HOME -s /sbin/nologin \
+RUN groupadd -r -g 800 glassfish && \
+    useradd -r -u 800 -g glassfish -d $GLASSFISH_HOME -s /sbin/nologin \
 	-c "GlassFish JavaEE application server" glassfish && \
     mkdir -p $GLASSFISH_HOME /etc/glassfish /etc/glassfish.d
 COPY docker-entrypoint.sh /etc/glassfish
