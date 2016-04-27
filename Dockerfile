@@ -15,10 +15,12 @@ RUN zypper --non-interactive install \
 RUN groupadd -r -g 800 glassfish && \
     useradd -r -u 800 -g glassfish -d $GLASSFISH_HOME -s /sbin/nologin \
 	-c "GlassFish JavaEE application server" glassfish && \
-    mkdir -p $GLASSFISH_HOME /etc/glassfish /etc/glassfish.d
+    mkdir -p $GLASSFISH_HOME /etc/glassfish /etc/glassfish.d /var/lib/glassfish
 COPY docker-entrypoint.sh /etc/glassfish
 RUN chmod 0755 /etc/glassfish/docker-entrypoint.sh && \
-    chown -R glassfish:glassfish $GLASSFISH_HOME /etc/glassfish /etc/glassfish.d
+    chown -R glassfish:glassfish $GLASSFISH_HOME \
+	/etc/glassfish /etc/glassfish.d /var/lib/glassfish && \
+    chmod 0750 /var/lib/glassfish
 
 USER glassfish
 WORKDIR $GLASSFISH_HOME
