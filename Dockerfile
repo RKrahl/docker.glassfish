@@ -1,14 +1,11 @@
-FROM opensuse
+FROM rkrahl/opensuse
 
 ENV GLASSFISH_HOME /opt/glassfish4
 ENV JAVA_HOME /usr/lib64/jvm/java-1.8.0-openjdk
 
-RUN zypper --non-interactive modifyrepo --disable non-oss update-non-oss
 RUN zypper --non-interactive install \
-	curl \
 	java-1_8_0-openjdk-devel \
 	mysql-connector-java \
-	net-tools \
 	pwgen \
 	unzip
 
@@ -16,8 +13,8 @@ RUN groupadd -r -g 800 glassfish && \
     useradd -r -u 800 -g glassfish -d $GLASSFISH_HOME -s /sbin/nologin \
 	-c "GlassFish JavaEE application server" glassfish && \
     mkdir -p $GLASSFISH_HOME /etc/glassfish /etc/glassfish.d /var/lib/glassfish
-COPY docker-entrypoint.sh /etc/glassfish
-RUN chmod 0755 /etc/glassfish/docker-entrypoint.sh && \
+COPY start-glassfish.sh /etc/glassfish
+RUN chmod 0755 /etc/glassfish/start-glassfish.sh && \
     chown -R glassfish:glassfish $GLASSFISH_HOME \
 	/etc/glassfish /etc/glassfish.d /var/lib/glassfish && \
     chmod 0750 /var/lib/glassfish
@@ -34,7 +31,7 @@ RUN tmpfile=`mktemp` && \
     rm -rf $tmpfile && \
     asadmin delete-domain domain1
 
-ENTRYPOINT ["/etc/glassfish/docker-entrypoint.sh"]
+CMD ["/etc/glassfish/start-glassfish.sh"]
 
 VOLUME ["/opt/glassfish4/glassfish/domains"]
 

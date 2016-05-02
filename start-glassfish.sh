@@ -38,12 +38,12 @@ glassfish_init() {
 	    *)       echo "ignoring $f" ;;
 	esac
     done
-
-    asadmin stop-domain $domainname
 }
 
 if [[ ! -d $domaindir/domain1 ]]; then
     glassfish_init
+else
+    asadmin start-domain
 fi
 
-exec asadmin start-domain --watchdog
+echo "GlassFish is running."
