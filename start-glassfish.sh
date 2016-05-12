@@ -1,7 +1,8 @@
 #!/bin/bash
 
-domaindir=/opt/glassfish4/glassfish/domains
+certsdir=/etc/glassfish/certs
 domainname=domain1
+domaindir=/opt/glassfish4/glassfish/domains/$domainname
 
 
 glassfish_init() {
@@ -17,8 +18,27 @@ glassfish_init() {
     asadmin stop-domain $domainname
     if [ ! -z "$GF_DOMAIN_LIBS" ]; then
 	for f in ${GF_DOMAIN_LIBS}; do
-	    test -f $f && ln -s $f $domaindir/$domainname/lib
+	    test -f $f && ln -s $f $domaindir/lib
 	done
+    fi
+    if [ -d $certsdir ]; then
+	# The certs directory is present, e.g. it has been added by a
+	# bind mount.  It contains the SSL certificate we should use.
+	# Add the certificate to Glassfish's keystore, overwriting the
+	# self-signed certificate that Glassfish created during
+	# create-domain.
+	tmpfile=`mktemp`
+	openssl pkcs12 -export -chain \
+	    -in $certsdir/cert.pem -inkey $certsdir/key.pem \
+	    -CAfile $certsdir/cacert.pem \
+	    -out $tmpfile -name s1as -passout pass:changeit
+	keytool -importkeystore \
+	    -srckeystore $tmpfile -srcstoretype pkcs12 \
+	    -srcstorepass changeit \
+	    -destkeystore $domaindir/config/keystore.jks -deststoretype jks \
+	    -deststorepass changeit \
+	    -noprompt
+	rm -f $tmpfile
     fi
     asadmin start-domain $domainname
     asadmin set server.http-service.access-log.format="common"
@@ -40,7 +60,7 @@ glassfish_init() {
     done
 }
 
-if [[ ! -d $domaindir/domain1 ]]; then
+if [[ ! -d $domaindir ]]; then
     glassfish_init
 else
     asadmin start-domain
