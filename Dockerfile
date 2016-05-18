@@ -35,4 +35,4 @@ CMD ["/etc/glassfish/start-glassfish.sh"]
 
 VOLUME ["/opt/glassfish4/glassfish/domains"]
 
-EXPOSE 4848 8080 8181
+EXPOSE 4848 8009 8080 8181
