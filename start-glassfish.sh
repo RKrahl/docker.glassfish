@@ -18,7 +18,7 @@ glassfish_init() {
     asadmin stop-domain $domainname
     if [ ! -z "$GF_DOMAIN_LIBS" ]; then
 	for f in ${GF_DOMAIN_LIBS}; do
-	    test -f $f && ln -s $f $domaindir/lib
+	    test -f $f && ln -s $f $domaindir/lib/ext
 	done
     fi
     if [ -d $certsdir ]; then
