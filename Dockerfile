@@ -6,7 +6,6 @@ ENV JAVA_HOME /usr/lib64/jvm/java-1.8.0-openjdk
 RUN zypper --non-interactive install \
 	java-1_8_0-openjdk-devel \
 	mysql-connector-java \
-	pwgen \
 	unzip
 
 RUN groupadd -r -g 800 glassfish && \
