@@ -28,7 +28,9 @@ RUN tmpfile=`mktemp` && \
 	http://download.java.net/glassfish/4.0/release/glassfish-4.0.zip && \
     unzip -q -d /opt $tmpfile && \
     rm -rf $tmpfile && \
-    asadmin delete-domain domain1
+    asadmin delete-domain domain1 && \
+    mkdir $GLASSFISH_HOME/glassfish/domains/.gfclient && \
+    ln -s glassfish/domains/.gfclient $GLASSFISH_HOME
 
 CMD ["/etc/glassfish/start-glassfish.sh"]
 
