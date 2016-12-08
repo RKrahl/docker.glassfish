@@ -6,6 +6,8 @@ domaindir=/opt/glassfish4/glassfish/domains/$domainname
 
 
 glassfish_init() {
+    mkdir /opt/glassfish4/glassfish/domains/.gfclient
+    ln -s glassfish/domains/.gfclient /opt/glassfish4
     adminpw="$(pwgen -s 32 1)"
     pwfile=$(mktemp)
     echo "AS_ADMIN_PASSWORD=${adminpw}" > $pwfile
