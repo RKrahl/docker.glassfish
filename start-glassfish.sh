@@ -2,12 +2,12 @@
 
 certsdir=/etc/glassfish/certs
 domainname=domain1
-domaindir=/opt/glassfish4/glassfish/domains/$domainname
+domaindir=$GLASSFISH_HOME/glassfish/domains/$domainname
 
 
 glassfish_init() {
-    mkdir /opt/glassfish4/glassfish/domains/.gfclient
-    ln -s glassfish/domains/.gfclient /opt/glassfish4
+    mkdir $GLASSFISH_HOME/glassfish/domains/.gfclient
+    ln -s glassfish/domains/.gfclient $GLASSFISH_HOME
     adminpw="$(pwgen -s 32 1)"
     pwfile=$(mktemp)
     echo "AS_ADMIN_PASSWORD=${adminpw}" > $pwfile

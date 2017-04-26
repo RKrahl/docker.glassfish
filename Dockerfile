@@ -32,6 +32,6 @@ RUN tmpfile=`mktemp` && \
 
 CMD ["/etc/glassfish/start-glassfish.sh"]
 
-VOLUME ["/opt/glassfish4/glassfish/domains"]
+VOLUME ["$GLASSFISH_HOME/glassfish/domains"]
 
 EXPOSE 4848 8009 8080 8181
