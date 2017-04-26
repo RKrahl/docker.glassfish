@@ -1,6 +1,6 @@
 FROM rkrahl/opensuse
 
-ENV GLASSFISH_HOME /opt/glassfish4
+ENV GLASSFISH_HOME /opt/payara41
 ENV JAVA_HOME /usr/lib64/jvm/java-1.8.0-openjdk
 
 RUN zypper --non-interactive install \
@@ -25,7 +25,7 @@ ENV PATH $GLASSFISH_HOME/bin:$JAVA_HOME/bin:/usr/local/bin:/usr/bin:/bin
 
 RUN tmpfile=`mktemp` && \
     curl --silent --show-error --location --output $tmpfile \
-	http://download.java.net/glassfish/4.0/release/glassfish-4.0.zip && \
+	http://bit.ly/2nmjvEj && \
     unzip -q -d /opt $tmpfile && \
     rm -rf $tmpfile && \
     asadmin delete-domain domain1
