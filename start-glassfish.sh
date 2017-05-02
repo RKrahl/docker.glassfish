@@ -69,7 +69,6 @@ glassfish_init() {
     asadmin set server.http-service.access-log.format="common"
     asadmin set server.http-service.access-logging-enabled=true
     asadmin set server.thread-pools.thread-pool.http-thread-pool.max-thread-pool-size=128
-    asadmin set configs.config.server-config.cdi-service.enable-implicit-cdi=false
     asadmin set server.ejb-container.property.disable-nonportable-jndi-names="true"
     asadmin delete-ssl --type http-listener http-listener-2
     asadmin delete-network-listener http-listener-2
