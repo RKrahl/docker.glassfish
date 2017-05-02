@@ -4,6 +4,9 @@ certsdir=/etc/glassfish/certs
 domainname=domain1
 domaindir=$GLASSFISH_HOME/glassfish/domains/$domainname
 
+DOMAIN_DATA=$domaindir/data
+export DOMAIN_DATA
+
 
 glassfish_init() {
     mkdir $GLASSFISH_HOME/glassfish/domains/.gfclient
@@ -76,6 +79,8 @@ glassfish_init() {
     asadmin create-ssl --type http-listener --certname s1as --ssl3enabled=false --ssl3tlsciphers +TLS_RSA_WITH_AES_256_CBC_SHA,+TLS_RSA_WITH_AES_128_CBC_SHA http-listener-2
     asadmin set configs.config.server-config.network-config.protocols.protocol.http-listener-2.http.request-timeout-seconds=-1
     asadmin create-network-listener --protocol http-listener-1 --listenerport 8009 --jkenabled true jk-connector
+
+    mkdir $DOMAIN_DATA
 
     for f in /etc/glassfish.d/*; do
 	case "$f" in
