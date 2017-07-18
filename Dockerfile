@@ -24,7 +24,7 @@ ENV PATH $GLASSFISH_HOME/bin:$JAVA_HOME/bin:/usr/local/bin:/usr/bin:/bin
 
 RUN tmpfile=`mktemp` && \
     curl --silent --show-error --location --output $tmpfile \
-	http://bit.ly/2nmjvEj && \
+	http://bit.ly/2qbmZsW && \
     unzip -q -d /opt $tmpfile && \
     rm -rf $tmpfile && \
     asadmin delete-domain domain1
