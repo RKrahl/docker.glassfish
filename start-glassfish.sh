@@ -2,10 +2,9 @@
 
 certsdir=/etc/glassfish/certs
 domainname=domain1
-domaindir=$GLASSFISH_HOME/glassfish/domains/$domainname
 
-DOMAIN_DATA=$domaindir/data
-export DOMAIN_DATA
+DOMAINDIR=$GLASSFISH_HOME/glassfish/domains/$domainname
+export DOMAINDIR
 
 
 glassfish_init() {
@@ -23,7 +22,7 @@ glassfish_init() {
     asadmin stop-domain $domainname
     if [ ! -z "$GF_DOMAIN_LIBS" ]; then
 	for f in ${GF_DOMAIN_LIBS}; do
-	    test -f $f && ln -s $f $domaindir/lib/ext
+	    test -f $f && ln -s $f $DOMAINDIR/lib/ext
 	done
     fi
     if [ -d $certsdir ]; then
@@ -35,14 +34,14 @@ glassfish_init() {
 	tmpfile=`mktemp`
 	# Remove the self-signed certificate from Glassfish's cacerts.jks.
 	keytool -delete -alias s1as \
-		-keystore $domaindir/config/cacerts.jks -storetype jks \
+		-keystore $DOMAINDIR/config/cacerts.jks -storetype jks \
 		-storepass changeit \
 		-noprompt
 	# Check whether the root ca is already in cacerts.jks and add
 	# it if needed.
 	rootfp=`openssl x509 -in $certsdir/rootcert.pem \
                     -noout -sha1 -fingerprint | cut -d '=' -f 2 -s`
-	if ! (keytool -list -keystore $domaindir/config/cacerts.jks \
+	if ! (keytool -list -keystore $DOMAINDIR/config/cacerts.jks \
 	          -storetype jks -storepass changeit \
 	          | grep -q $rootfp); then
 	    echo "Import root cert to cacerts.jks"
@@ -51,7 +50,7 @@ glassfish_init() {
 	    alias=`pwgen 32 1`
 	    openssl x509 -in $certsdir/rootcert.pem -outform der -out $tmpfile
 	    keytool -import -file $tmpfile -alias $alias \
-		-keystore $domaindir/config/cacerts.jks -storetype jks \
+		-keystore $DOMAINDIR/config/cacerts.jks -storetype jks \
 		-storepass changeit \
 		-noprompt
 	fi
@@ -63,7 +62,7 @@ glassfish_init() {
 	keytool -importkeystore \
 	    -srckeystore $tmpfile -srcstoretype pkcs12 \
 	    -srcstorepass changeit \
-	    -destkeystore $domaindir/config/keystore.jks -deststoretype jks \
+	    -destkeystore $DOMAINDIR/config/keystore.jks -deststoretype jks \
 	    -deststorepass changeit \
 	    -noprompt
 	rm -f $tmpfile
@@ -80,7 +79,7 @@ glassfish_init() {
     asadmin set configs.config.server-config.network-config.protocols.protocol.http-listener-2.http.request-timeout-seconds=-1
     asadmin create-network-listener --protocol http-listener-1 --listenerport 8009 --jkenabled true jk-connector
 
-    mkdir $DOMAIN_DATA
+    mkdir $DOMAINDIR/data
 
     for f in /etc/glassfish.d/*; do
 	case "$f" in
@@ -90,7 +89,7 @@ glassfish_init() {
     done
 }
 
-if [[ ! -d $domaindir ]]; then
+if [[ ! -d $DOMAINDIR ]]; then
     glassfish_init
 else
     asadmin start-domain
