@@ -1,4 +1,4 @@
-FROM rkrahl/opensuse
+FROM rkrahl/opensuse:42.3
 
 ENV GLASSFISH_HOME /opt/glassfish4
 ENV JAVA_HOME /usr/lib64/jvm/java-1.8.0-openjdk
