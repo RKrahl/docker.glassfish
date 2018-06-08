@@ -13,7 +13,6 @@ glassfish_init() {
     adminpw="$(pwgen -s 32 1)"
     pwfile=$(mktemp)
     echo "AS_ADMIN_PASSWORD=${adminpw}" > $pwfile
-    echo "ADMIN PASSWORD = ${adminpw}"
     asadmin --passwordfile $pwfile --user admin \
 	create-domain --savelogin $domainname
     rm -f $pwfile
