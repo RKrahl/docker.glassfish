@@ -91,6 +91,11 @@ glassfish_init() {
 if [[ ! -d $DOMAINDIR ]]; then
     glassfish_init
 else
+    if [[ ! -e $GLASSFISH_HOME/.gfclient && \
+	  -d $GLASSFISH_HOME/glassfish/domains/.gfclient ]]
+    then
+	ln -s glassfish/domains/.gfclient $GLASSFISH_HOME
+    fi
     asadmin start-domain
 fi
 
