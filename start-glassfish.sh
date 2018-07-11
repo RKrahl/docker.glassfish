@@ -8,8 +8,6 @@ export DOMAINDIR
 
 
 glassfish_init() {
-    mkdir $GLASSFISH_HOME/glassfish/domains/.gfclient
-    ln -s glassfish/domains/.gfclient $GLASSFISH_HOME
     adminpw="$(pwgen -s 32 1)"
     pwfile=$(mktemp)
     echo "AS_ADMIN_PASSWORD=${adminpw}" > $pwfile
@@ -80,7 +78,7 @@ glassfish_init() {
 
     mkdir $DOMAINDIR/data
 
-    for f in /etc/glassfish.d/*; do
+    for f in /etc/glassfish/post-install.d/*; do
 	case "$f" in
 	    *.sh)    echo "running $f"; . "$f" ;;
 	    *)       echo "ignoring $f" ;;
@@ -88,15 +86,23 @@ glassfish_init() {
     done
 }
 
+
+if [[ ! -e $GLASSFISH_HOME/.gfclient ]]; then
+    mkdir -p $GLASSFISH_HOME/glassfish/domains/.gfclient
+    ln -s glassfish/domains/.gfclient $GLASSFISH_HOME
+fi
+
 if [[ ! -d $DOMAINDIR ]]; then
     glassfish_init
 else
-    if [[ ! -e $GLASSFISH_HOME/.gfclient && \
-	  -d $GLASSFISH_HOME/glassfish/domains/.gfclient ]]
-    then
-	ln -s glassfish/domains/.gfclient $GLASSFISH_HOME
-    fi
     asadmin start-domain
 fi
+
+for f in /etc/glassfish/post-startup.d/*; do
+    case "$f" in
+	*.sh)    echo "running $f"; . "$f" ;;
+	*)       echo "ignoring $f" ;;
+    esac
+done
 
 echo "GlassFish is running."
