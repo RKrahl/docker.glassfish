@@ -2,8 +2,10 @@ FROM rkrahl/opensuse:42.3
 
 ENV GLASSFISH_HOME /opt/payara41
 ENV JAVA_HOME /usr/lib64/jvm/java-1.8.0-openjdk
+ENV LC_ALL en_US.UTF-8
 
 RUN zypper --non-interactive install \
+	glibc-locale \
 	java-1_8_0-openjdk-devel \
 	mysql-connector-java \
 	unzip
