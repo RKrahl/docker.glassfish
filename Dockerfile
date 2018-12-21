@@ -3,8 +3,16 @@ FROM rkrahl/opensuse:15.0
 RUN zypper --non-interactive install \
 	glibc-locale \
 	java-1_8_0-openjdk-devel \
-	mysql-connector-java \
 	unzip
+
+# The distributed mysql-connector-java in opensuse:15.0 does not work
+# with java-1_8_0-openjdk any more.  (A bug?)  Use the RPM from
+# opensuse:42.3 instead.
+COPY mysql-connector-java-5.1.42-10.3.1.noarch.rpm /tmp
+RUN zypper --non-interactive install \
+	/tmp/mysql-connector-java-5.1.42-10.3.1.noarch.rpm && \
+    zypper --non-interactive addlock mysql-connector-java && \
+    rm /tmp/mysql-connector-java-5.1.42-10.3.1.noarch.rpm
 
 ENV GLASSFISH_HOME /opt/payara41
 ENV JAVA_HOME /usr/lib64/jvm/java-1.8.0-openjdk
