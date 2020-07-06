@@ -1,4 +1,4 @@
-FROM rkrahl/opensuse:15.1
+FROM rkrahl/opensuse:15.2
 
 RUN zypper --non-interactive install \
 	glibc-locale \
