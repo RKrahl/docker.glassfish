@@ -52,10 +52,16 @@ glassfish_init() {
 		-noprompt
 	fi
 	echo "Import cert.pem to keystore.jks"
-	openssl pkcs12 -export -chain \
-	    -in $certsdir/cert.pem -inkey $certsdir/key.pem \
-	    -CAfile $certsdir/certchain.pem \
-	    -out $tmpfile -name s1as -passout pass:changeit
+	if [ -f $certsdir/certchain.pem ]; then
+	    openssl pkcs12 -export -chain \
+		-in $certsdir/cert.pem -inkey $certsdir/key.pem \
+		-CAfile $certsdir/certchain.pem \
+		-out $tmpfile -name s1as -passout pass:changeit
+	else
+	    openssl pkcs12 -export \
+		-in $certsdir/cert.pem -inkey $certsdir/key.pem \
+		-out $tmpfile -name s1as -passout pass:changeit
+	fi
 	keytool -importkeystore \
 	    -srckeystore $tmpfile -srcstoretype pkcs12 \
 	    -srcstorepass changeit \
