@@ -75,10 +75,6 @@ glassfish_init() {
     asadmin set server.http-service.access-logging-enabled=true
     asadmin set server.thread-pools.thread-pool.http-thread-pool.max-thread-pool-size=128
     asadmin set server.ejb-container.property.disable-nonportable-jndi-names="true"
-    asadmin delete-ssl --type http-listener http-listener-2
-    asadmin delete-network-listener http-listener-2
-    asadmin create-network-listener --listenerport 8181 --protocol http-listener-2 http-listener-2
-    asadmin create-ssl --type http-listener --certname s1as --ssl3enabled=false --ssl3tlsciphers +TLS_RSA_WITH_AES_256_CBC_SHA,+TLS_RSA_WITH_AES_128_CBC_SHA http-listener-2
     asadmin set configs.config.server-config.network-config.protocols.protocol.http-listener-2.http.request-timeout-seconds=-1
     asadmin create-network-listener --protocol http-listener-1 --listenerport 8009 --jkenabled true jk-connector
 
