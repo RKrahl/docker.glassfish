@@ -14,7 +14,7 @@ RUN zypper --non-interactive install \
     zypper --non-interactive addlock mysql-connector-java && \
     rm /tmp/mysql-connector-java-5.1.42-10.3.1.noarch.rpm
 
-ENV GLASSFISH_HOME /opt/payara41
+ENV GLASSFISH_HOME /opt/payara5
 ENV JAVA_HOME /usr/lib64/jvm/java-1.8.0-openjdk
 ENV LC_ALL en_US.UTF-8
 
@@ -37,7 +37,7 @@ ENV PATH $GLASSFISH_HOME/bin:$JAVA_HOME/bin:/usr/local/bin:/usr/bin:/bin
 
 RUN tmpfile=`mktemp` && \
     curl --silent --show-error --location --output $tmpfile \
-	https://repo1.maven.org/maven2/fish/payara/distributions/payara/4.1.2.181/payara-4.1.2.181.zip && \
+	https://repo1.maven.org/maven2/fish/payara/distributions/payara/5.2021.2/payara-5.2021.2.zip && \
     unzip -q -d /opt $tmpfile && \
     rm -rf $tmpfile && \
     asadmin delete-domain domain1
