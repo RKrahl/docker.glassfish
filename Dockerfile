@@ -1,5 +1,7 @@
 FROM rkrahl/opensuse:15.4
 
+RUN zypper --non-interactive refresh
+
 RUN zypper --non-interactive install \
 	glibc-locale \
 	java-11-openjdk-devel \
