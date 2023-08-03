@@ -1,13 +1,12 @@
-FROM rkrahl/opensuse:15.4
+FROM rkrahl/opensuse:15.5
 
 RUN zypper --non-interactive refresh
 
 RUN zypper --non-interactive install \
 	glibc-locale \
 	java-11-openjdk-devel \
-	mysql-connector-java-5.1.47 \
-	unzip && \
-    zypper --non-interactive addlock mysql-connector-java
+	mysql-connector-java \
+	unzip
 
 ENV GLASSFISH_HOME /opt/payara5
 ENV JAVA_HOME /usr/lib64/jvm/java-11-openjdk
