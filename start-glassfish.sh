@@ -37,7 +37,7 @@ glassfish_init() {
 	# Check whether the root ca is already in cacerts.jks and add
 	# it if needed.
 	rootfp=`openssl x509 -in $certsdir/rootcert.pem \
-                    -noout -sha1 -fingerprint | cut -d '=' -f 2 -s`
+                    -noout -sha256 -fingerprint | cut -d '=' -f 2 -s`
 	if ! (keytool -list -keystore $DOMAINDIR/config/cacerts.jks \
 	          -storetype jks -storepass changeit \
 	          | grep -q $rootfp); then
