@@ -8,13 +8,13 @@ RUN zypper --non-interactive install \
 	mysql-connector-java \
 	unzip
 
-ENV GLASSFISH_HOME /opt/payara5
+ENV GLASSFISH_HOME /opt/payara6
 ENV JAVA_HOME /usr/lib64/jvm/java-11-openjdk
 ENV LC_ALL en_US.UTF-8
 
 RUN groupadd -r -g 800 glassfish && \
     useradd -r -u 800 -g glassfish -d $GLASSFISH_HOME -s /sbin/nologin \
-	-c "GlassFish JavaEE application server" glassfish && \
+	-c "Payara Jakarta EE application server" glassfish && \
     mkdir -p \
 	$GLASSFISH_HOME \
 	/etc/glassfish \
@@ -31,7 +31,7 @@ ENV PATH $GLASSFISH_HOME/bin:$JAVA_HOME/bin:/usr/local/bin:/usr/bin:/bin
 
 RUN tmpfile=`mktemp` && \
     curl --silent --show-error --location --output $tmpfile \
-	https://repo1.maven.org/maven2/fish/payara/distributions/payara/5.2022.3/payara-5.2022.3.zip && \
+	https://repo1.maven.org/maven2/fish/payara/distributions/payara/6.2023.7/payara-6.2023.7.zip && \
     unzip -q -d /opt $tmpfile && \
     rm -rf $tmpfile && \
     asadmin delete-domain domain1
