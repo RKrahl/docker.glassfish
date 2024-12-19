@@ -35,7 +35,7 @@ ENV PATH $GLASSFISH_HOME/bin:$JAVA_HOME/bin:/usr/local/bin:/usr/bin:/bin
 
 RUN tmpfile=`mktemp` && \
     curl --silent --show-error --location --output $tmpfile \
-	https://repo1.maven.org/maven2/fish/payara/distributions/payara/6.2024.11/payara-6.2024.11.zip && \
+	https://repo1.maven.org/maven2/fish/payara/distributions/payara/6.2024.12/payara-6.2024.12.zip && \
     unzip -q -d /opt $tmpfile && \
     rm -rf $tmpfile && \
     asadmin delete-domain domain1
