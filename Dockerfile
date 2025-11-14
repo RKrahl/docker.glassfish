@@ -8,9 +8,9 @@ RUN zypper --non-interactive install \
 	mysql-connector-java \
 	unzip
 
-ENV GLASSFISH_HOME /opt/payara6
-ENV JAVA_HOME /usr/lib64/jvm/java-17-openjdk
-ENV LC_ALL en_US.UTF-8
+ENV GLASSFISH_HOME=/opt/payara6
+ENV JAVA_HOME=/usr/lib64/jvm/java-17-openjdk
+ENV LC_ALL=en_US.UTF-8
 
 RUN groupadd -r -g 800 glassfish && \
     useradd -r -u 800 -g glassfish -d $GLASSFISH_HOME -s /sbin/nologin \
@@ -27,7 +27,7 @@ RUN chmod 0755 /etc/glassfish/start-glassfish.sh && \
 USER glassfish
 WORKDIR $GLASSFISH_HOME
 
-ENV PATH $GLASSFISH_HOME/bin:$JAVA_HOME/bin:/usr/local/bin:/usr/bin:/bin
+ENV PATH=$GLASSFISH_HOME/bin:$JAVA_HOME/bin:/usr/local/bin:/usr/bin:/bin
 
 RUN tmpfile=`mktemp` && \
     curl --silent --show-error --location --output $tmpfile \
