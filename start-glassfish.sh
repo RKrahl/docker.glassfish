@@ -16,6 +16,8 @@ glassfish_init() {
     rm -f $pwfile
     asadmin start-domain $domainname
     asadmin enable-secure-admin
+    asadmin delete-jvm-options '-Xmx512m'
+    asadmin create-jvm-options '-Xmx2048m:-Xms2048m'
     asadmin stop-domain $domainname
     if [ ! -z "$GF_DOMAIN_LIBS" ]; then
 	for f in ${GF_DOMAIN_LIBS}; do
