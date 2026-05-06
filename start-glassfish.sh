@@ -77,8 +77,9 @@ glassfish_init() {
     asadmin set server.http-service.access-logging-enabled=true
     asadmin set server.thread-pools.thread-pool.http-thread-pool.max-thread-pool-size=128
     asadmin set server.ejb-container.property.disable-nonportable-jndi-names="true"
-    asadmin set configs.config.server-config.network-config.protocols.protocol.http-listener-2.http.request-timeout-seconds=-1
     asadmin create-network-listener --protocol http-listener-1 --listenerport 8009 --jkenabled true jk-connector
+    asadmin set configs.config.server-config.network-config.protocols.protocol.http-listener-1.http.request-timeout-seconds=-1
+    asadmin set configs.config.server-config.network-config.protocols.protocol.http-listener-2.http.request-timeout-seconds=-1
 
     mkdir $DOMAINDIR/data
 
